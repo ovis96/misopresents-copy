@@ -53,7 +53,7 @@ var app = express();
 // app.set("view engine", "handlebars");
 // app.set("views", __dirname + "/views");
 app
-  .use(express.static(__dirname + "/public"))
+  .use(express.static(__dirname + "../../public"))
   .use(cors())
   .use(cookieParser());
 
