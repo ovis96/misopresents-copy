@@ -143,6 +143,8 @@ app.get("/callback", function (req, res) {
     };
 
     request.post(authOptions, function (error, response, body) {
+      console.log("~~~ after post");
+
       if (!error && response.statusCode === 200) {
         access_token = body.access_token;
         var access_token = body.access_token,

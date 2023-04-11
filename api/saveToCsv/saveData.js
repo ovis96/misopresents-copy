@@ -51,6 +51,7 @@ const getUsersPlaylists = async (headers) => {
 };
 
 exports.saveDataToCSV = async (access_token) => {
+  console.log("~~~ saveData");
   const data = {};
   const bearerToken = `Bearer ${access_token}`;
 
