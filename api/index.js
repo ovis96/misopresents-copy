@@ -18,9 +18,9 @@ const jwt = require("jsonwebtoken");
 // const https = require("https");
 // const exphbs = require("express-handlebars");
 const cors = require("cors");
-const { saveDataToCSV } = require("./saveToCsv/saveData");
+const { saveDataToCSV } = require("../saveToCsv/saveData");
 // const { config } = require("./config");
-require("dotenv").config();
+// require("dotenv").config();
 
 const client_id = process.env.clientID; // Your client id
 const client_secret = process.env.clientSecret; // Your secret
@@ -52,10 +52,10 @@ var app = express();
 // app.engine("handlebars", exphbs({ defaultLayout: null }));
 // app.set("view engine", "handlebars");
 // app.set("views", __dirname + "/views");
-app
-  .use(express.static(__dirname + "../../public"))
-  .use(cors())
-  .use(cookieParser());
+// app
+//   .use(express.static(__dirname + "../../public"))
+//   .use(cors())
+//   .use(cookieParser());
 
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
@@ -115,63 +115,50 @@ app.get("/callback", function (req, res) {
   // after checking the state parameter
 
   var code = req.query.code || null;
-  var state = req.query.state || null;
-  var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  if (state === null || state !== storedState) {
-    res.redirect(
-      "/#" +
-        querystring.stringify({
-          error: "state_mismatch",
-        })
-    );
-  } else {
-    res.clearCookie(stateKey);
-    var authOptions = {
-      url: "https://accounts.spotify.com/api/token",
-      form: {
-        code: code,
-        redirect_uri: redirect_uri,
-        grant_type: "authorization_code",
-      },
-      headers: {
-        Authorization:
-          "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
-      },
-      json: true,
-    };
+  res.clearCookie(stateKey);
+  var authOptions = {
+    url: "https://accounts.spotify.com/api/token",
+    form: {
+      code: code,
+      redirect_uri: redirect_uri,
+      grant_type: "authorization_code",
+    },
+    headers: {
+      Authorization:
+        "Basic " +
+        new Buffer(client_id + ":" + client_secret).toString("base64"),
+    },
+    json: true,
+  };
 
-    request.post(authOptions, function (error, response, body) {
-      console.log("~~~ after post");
+  request.post(authOptions, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      access_token = body.access_token;
+      var access_token = body.access_token,
+        refresh_token = body.refresh_token;
 
-      if (!error && response.statusCode === 200) {
-        access_token = body.access_token;
-        var access_token = body.access_token,
-          refresh_token = body.refresh_token;
+      saveDataToCSV(access_token);
 
-        saveDataToCSV(access_token);
-
-        res.redirect(
-          "/#" +
-            querystring.stringify({
-              client: "spotify",
-              access_token: access_token,
-              refresh_token: refresh_token,
-            })
-        );
-        // res.redirect("/spotify");
-        // console.log(retrieveTracksSpotify(access_token, "short_term", 1, "LAST MONTH"));
-        // res.render("spotify", {
-        //   shortTerm: retrieveTracksSpotify(access_token, "short_term", 1, "LAST MONTH"),
-        //   mediumTerm: retrieveTracksSpotify(access_token, "medium_term", 2, "LAST 6 MONTHS"),
-        //   longTerm: retrieveTracksSpotify(access_token, "long_term", 3, "ALL TIME")
-        // });
-      } else {
-        res.send("There was an error during authentication.");
-      }
-    });
-  }
+      res.redirect(
+        "/#" +
+          querystring.stringify({
+            client: "spotify",
+            access_token: access_token,
+            refresh_token: refresh_token,
+          })
+      );
+      // res.redirect("/spotify");
+      // console.log(retrieveTracksSpotify(access_token, "short_term", 1, "LAST MONTH"));
+      // res.render("spotify", {
+      //   shortTerm: retrieveTracksSpotify(access_token, "short_term", 1, "LAST MONTH"),
+      //   mediumTerm: retrieveTracksSpotify(access_token, "medium_term", 2, "LAST 6 MONTHS"),
+      //   longTerm: retrieveTracksSpotify(access_token, "long_term", 3, "ALL TIME")
+      // });
+    } else {
+      res.send("There was an error during authentication.");
+    }
+  });
 });
 
 app.get("/refresh_token", function (req, res) {
