@@ -218,6 +218,7 @@
       $("#loggedin").hide();
     }
 
+    retrieveTracks("short_term", 1, "LAST MONTH");
     document.getElementById("short_term").addEventListener(
       "click",
       function () {
