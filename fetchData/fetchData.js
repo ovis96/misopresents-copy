@@ -53,8 +53,10 @@ exports.fetchData = async (access_token) => {
     Authorization: bearerToken,
     "Content-Type": "application/json",
   };
-
+  console.log("~~~ bearer", bearerToken);
   const personalInfo = await getName(headers);
+  console.log("~~~ personalInfo", personalInfo);
+
   data["Name"] = personalInfo.display_name;
   data["Email"] = personalInfo.email;
   data["Followers"] = personalInfo.followers.total;
