@@ -43,7 +43,7 @@
     userProfileTemplate = Handlebars.compile(userProfileSource),
     userProfilePlaceholder = document.getElementById("receipt");
 
-  function downloadImg(fileName) {
+  function downloadImg() {
     var offScreen = document.querySelector(".receiptContainer");
     window.scrollTo(0, 0);
     var clone = hiddenClone(offScreen);
@@ -54,7 +54,7 @@
       var link = document.createElement("a");
       console.log(dataURL);
       link.href = dataURL;
-      link.download = `${fileName}.png`;
+      link.download = `receipt.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
