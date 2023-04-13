@@ -4,7 +4,7 @@
    * @return Object
    */
 
-  var displayName = "RECEIPTIFY";
+  var displayName = "MISOPRESENTS";
   var dateOptions = {
     weekday: "long",
     year: "numeric",
@@ -254,7 +254,7 @@
           const musicKitInstance = window.MusicKit.configure({
             developerToken: dev_token,
             app: {
-              name: "receiptify",
+              name: "misopresents",
               build: "1.0.0",
             },
           });

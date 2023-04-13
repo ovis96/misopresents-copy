@@ -1,5 +1,5 @@
 {
-  "name": "receiptify",
+  "name": "misopresents",
   "version": "1.0.0",
   "description": "Genereates receipts based on a user's spotify listening history.",
   "main": "app.js",

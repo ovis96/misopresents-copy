@@ -3,20 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Receiptify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+    <title>Misopresents</title>
+    <link
+      rel="stylesheet"
+      href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="container">
       <div id="loggedin">
-        <h1>Receiptify</h1>
+        <h1>Misopresents</h1>
         <h2>Last.fm Top Track Generator</h2>
         <form class="username-input" id="user-search">
-          <input type="text" id="username" class="form-control" name="username" placeholder="Enter Username" />
-          <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+          <input
+            type="text"
+            id="username"
+            class="form-control"
+            name="username"
+            placeholder="Enter Username"
+          />
+          <button type="submit" id="submit" class="btn btn-primary">
+            Submit
+          </button>
         </form>
-        <p id="error-message" class="hidden">Sorry, that username is not valid. Please try again!</p>
+        <p id="error-message" class="hidden">
+          Sorry, that username is not valid. Please try again!
+        </p>
         <div id="options" class="hidden">
           <button class="btn time-btn" id="week">Last Week</button>
           <button class="btn time-btn" id="month">Last Month</button>
@@ -29,13 +42,15 @@
       <script id="receipt-template" type="text/x-handlebars-template">
         <div class="receiptContainer">
           <h2 class="logo">
-            RECEIPTIFY
+            MISOPRESENTS
           </h2>
           <p class="period">
             {{period}}
           </p>
           <p class="date">
-            ORDER #000{{num}} FOR {{name}}
+            ORDER #000{{num}}
+            FOR
+            {{name}}
           </p>
           <p class="date">
             {{time}}
@@ -58,7 +73,8 @@
                   {{this.playcount}}
                 </td>
                 <td class="name">
-                  {{this.name}} -
+                  {{this.name}}
+                  -
                   {{this.artist.name}}
                 </td>
                 <td class="length">
@@ -90,7 +106,8 @@
             AUTH CODE: 123421
           </p>
           <p class="date">
-            CARDHOLDER: {{name}}
+            CARDHOLDER:
+            {{name}}
           </p>
           <div class="thanks">
             <p>
@@ -98,7 +115,7 @@
             </p>
             <img src="barcode.png" />
             <p class="website">
-              receiptify.herokuapp.com
+              misopresents.herokuapp.com
             </p>
           </div>
         </div>
