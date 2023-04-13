@@ -5,6 +5,14 @@
 @font-face {
   font-family: "receipt";
   src: url("Merchant_Copy.ttf") format("truetype");
+  size-adjust: 115%;
+}
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 h1 {
@@ -48,12 +56,13 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-top: 80px;
 }
 .login-btn {
   margin: 2vh auto;
   text-align: center;
   text-decoration: none;
-  padding: 2vh 4vh;
+  padding: 2vh 3vh;
   background-color: #1db954;
   font-size: 20px;
   border: none;
@@ -66,6 +75,10 @@ p {
   max-width: 295px;
 }
 
+.footer p {
+  font-size: 1.5rem;
+}
+
 .apple {
   background-color: #f94c57;
 }
@@ -74,12 +87,16 @@ p {
   background-color: black;
 }
 
+.tunemymusic {
+  background-color: #6e6cd0;
+}
+
 .time-btn {
   border: none;
   text-align: center;
   text-decoration: none;
   padding: 1vh 5vh;
-  background-color: #2d2d2d;
+  background-color: #0056ff;
   font-size: 20px;
   cursor: pointer;
   border-radius: 10px;
@@ -95,9 +112,14 @@ p {
 #options,
 #appleoption {
   margin: 0px auto;
+  margin-top: 1vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+.flex-center {
+  justify-content: center;
+  display: flex;
 }
 .hidden {
   display: none;
@@ -107,6 +129,9 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.hidden {
+  display: none;
 }
 .date {
   margin: 0vh;
@@ -122,6 +147,19 @@ p {
   align-content: center;
   justify-content: center;
   margin: 25px auto;
+}
+#receipt a,
+#receipt a:visited {
+  color: black;
+  text-decoration: none !important;
+}
+.under {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-top: 30px;
 }
 .username-input {
   display: flex;
@@ -151,7 +189,7 @@ p,
 table,
 .date {
   font-family: "receipt", "Courier New", Courier, monospace;
-  font-size: 2.1rem;
+  font-size: 2rem;
   line-height: 2rem;
 }
 
@@ -196,6 +234,10 @@ td {
 .thanks img {
   width: 70%;
 }
+.spotify-logo {
+  margin-top: 20px;
+  width: 80px !important;
+}
 
 /** -- Added for Anthems Partnership --**/
 .header-section {
@@ -212,7 +254,61 @@ td {
   width: 100%;
   border-top: 1px solid #e5e5e5;
 }
-
+.btn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+.btn-group > .btn:first-of-type {
+  border-top-left-radius: 4px !important;
+  border-bottom-left-radius: 4px !important;
+}
+.btn-check {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+input[type="radio" i] {
+  background-color: initial;
+  cursor: default;
+  appearance: auto;
+  padding: initial;
+  border: initial;
+}
+.btn-group > .btn-group:not(:last-child) > .btn,
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.btn-group > .btn-group:not(:first-child),
+.btn-group > .btn:not(:first-child) {
+  margin-left: -1px;
+}
+.btn-group-vertical > .btn,
+.btn-group > .btn {
+  position: relative;
+  flex: 1 1 auto;
+}
+.btn-outline-primary {
+  color: #0d6efd;
+  border-color: #0d6efd;
+}
+.btn-outline-primary:hover,
+.btn-check:checked + .btn-outline-primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+.btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+.btn-outline-secondary:hover,
+.btn-check:checked + .btn-outline-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
 .announcing-text {
   color: #fd1200;
   border-radius: 35px;
@@ -225,6 +321,21 @@ td {
   font-size: 14px;
   text-align: center;
   padding: 4px 0;
+}
+
+.about {
+  width: 70%;
+  text-align: center;
+  padding: 5vh 0;
+}
+
+.about p {
+  font-family: "Inter";
+  font-size: 16px;
+}
+
+.about h2 {
+  font-size: 20px;
 }
 
 .middle-container {
@@ -272,6 +383,121 @@ td {
 }
 /** -- End of Added for Anthems Partnership --**/
 
+/* NAV BEGIN */
+
+/* Navigation Bar */
+.nav-logo-p {
+  font-size: 3.7vh;
+  left: 4vw;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+nav {
+  width: 100%;
+  box-shadow: 10px 10px 29px 0px rgba(0, 0, 0, 0.07);
+  -webkit-box-shadow: 10px 10px 29px 0px rgba(0, 0, 0, 0.07);
+  -moz-box-shadow: 10px 10px 29px 0px rgba(0, 0, 0, 0.07);
+  height: auto;
+}
+nav > ul {
+  display: inline-block;
+  list-style-type: none;
+  padding: 2vh 3vw;
+  margin: 0vh;
+  float: right;
+}
+nav > ul > li {
+  border: 1px solid transparent;
+  border-radius: 1vh;
+  padding: 1vh 1.2vw;
+  margin: 0;
+  display: inline-block;
+}
+nav > ul > li:hover {
+  border-radius: 1.5vh;
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  color: white;
+}
+nav a {
+  text-decoration: none;
+}
+nav > ul > li > a {
+  font-size: 2.2vh;
+}
+.navTransparent {
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  background-color: white;
+}
+.navTransparent > ul > li:hover {
+  border: 1px solid white;
+}
+.navTransparent > ul > li > a {
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  color: white;
+  font-size: 2.5vh;
+}
+.navTransparent > a {
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  color: white;
+  font-family: var(--heading-font);
+}
+.navColor {
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  background-color: white;
+  z-index: 99;
+}
+.navColor > ul > li:hover {
+  background-color: #1db954;
+}
+.navColor > ul > li:hover a {
+  color: white;
+}
+.navColor > ul > li > a {
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  color: black;
+}
+.nav-logo-p {
+  font-family: var(--heading-font);
+  -webkit-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  color: white;
+}
+
+.ad-centered {
+  justify-content: center;
+}
+
+.options-ad {
+  display: flex;
+  height: 100px;
+  width: 720px;
+}
+
+@media (max-width: 330px) {
+  .options-ad {
+    display: inline-block;
+    width: 320px;
+  }
+}
+
+/* NAV END */
+
 @media only screen and (min-width: 768px) and (max-width: 1280px) {
   #loggedin,
   #login {
@@ -279,6 +505,9 @@ td {
   }
   .container {
     width: 100%;
+  }
+  .about {
+    width: 80%;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -294,6 +523,9 @@ td {
   }
   .container {
     width: 100%;
+  }
+  .about {
+    width: 90%;
   }
 }
 

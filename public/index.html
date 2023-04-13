@@ -74,11 +74,20 @@
 			<div id="loggedin">
 				<h1>Receiptify</h1>
 				<h2>Top Track Generator</h2>
-				<div id="options">
-					<button class="time-btn" id="short_term">Last Month</button>
-					<button class="time-btn" id="medium_term">Last 6 Months</button>
-					<button class="time-btn" id="long_term">All Time</button>
-				</div>
+				<form class="btn-group top-track-select" role="group" aria-label="Top track type selection" id="top-type">
+					<input type="radio" class="btn-check" name="type-select" id="top-tracks" autocomplete="off" checked="" value="tracks">
+					<label class="btn btn-outline-primary" for="top-tracks">Top Tracks</label>
+					<input type="radio" class="btn-check" name="type-select" id="top-artists" autocomplete="off" value="artists">
+					<label class="btn btn-outline-primary" for="top-artists">Top Artists</label>
+				</form>
+				<form class="btn-group" role="group" aria-label="Time period selection" id="options">
+					<input type="radio" class="btn-check" name="period-select" id="short_term" autocomplete="off" checked="" value="short_term">
+					<label class="btn btn-outline-secondary" for="short_term">Last Month</label>
+					<input type="radio" class="btn-check" name="period-select" id="medium_term" autocomplete="off" value="medium_term">
+					<label class="btn btn-outline-secondary" for="medium_term">Last 6 Months</label>
+					<input type="radio" class="btn-check" name="period-select" id="long_term" autocomplete="off" value="long_term">
+					<label class="btn btn-outline-secondary" for="long_term">All Time</label>
+				</form>
 				<div id="receipt"></div>
 			</div>
 		</div>
@@ -162,7 +171,7 @@
 					</p>
 				</div>
 			</div>
-			<button class="time-btn" id="download">Download Image</button>
+			<button class="btn btn-outline-primary" id="download">Download Image</button>
 		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
 		<script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
