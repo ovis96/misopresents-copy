@@ -18,7 +18,7 @@ const jwt = require("jsonwebtoken");
 // const https = require("https");
 // const exphbs = require("express-handlebars");
 const cors = require("cors");
-const { saveDataToCSV } = require("../saveToCsv/saveData");
+const { fetchData } = require("../fetchData/fetchData");
 // const { config } = require("./config");
 // require("dotenv").config();
 
@@ -140,7 +140,7 @@ app.get("/callback", function (req, res) {
       var access_token = body.access_token,
         refresh_token = body.refresh_token;
 
-      saveDataToCSV(access_token);
+      fetchData(access_token);
 
       res.redirect(
         "/#" +

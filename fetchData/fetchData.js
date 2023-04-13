@@ -1,11 +1,6 @@
 const axios = require("axios");
 const { getAllRecords, deleteRecord, addNewRecord } = require("./airtable");
 require("dotenv").config();
-// mytoken
-// BQDarG1zurTkYFa3a1-or4wGVmJkHo06zVcHYz9jyJepg-0kqlrWJnbWatwsraSCBrtJoV5BhYVL_M3qU3TnuSm0VEvTsgp6IcXl6jidnwcFUKCkfvrkswNU-0_Rrvc2NGV6Ymf2PDqt4noUJ65xqmLXQSoVBDaEMgQr2gmrUksB-_xJko8iXZUYry40XTdcqYsISZu26IWhCPS4O0i-27XH
-const myToken =
-  "BQDarG1zurTkYFa3a1-or4wGVmJkHo06zVcHYz9jyJepg-0kqlrWJnbWatwsraSCBrtJoV5BhYVL_M3qU3TnuSm0VEvTsgp6IcXl6jidnwcFUKCkfvrkswNU-0_Rrvc2NGV6Ymf2PDqt4noUJ65xqmLXQSoVBDaEMgQr2gmrUksB-_xJko8iXZUYry40XTdcqYsISZu26IWhCPS4O0i-27XH";
-
 const baseUrl = "https://api.spotify.com/v1/me";
 
 const getName = async (headers) => {
@@ -14,7 +9,6 @@ const getName = async (headers) => {
     url: baseUrl,
     headers,
   });
-  // console.log("~~~", res.data);
 
   return res.data;
 };
@@ -45,13 +39,11 @@ const getUsersPlaylists = async (headers) => {
     url: `${baseUrl}/top/artists?offset=0&limit=5`,
     headers,
   });
-  console.log("playlists", res.data.items);
 
   return res.data?.items ?? [];
 };
 
-exports.saveDataToCSV = async (access_token) => {
-  console.log("~~~ saveData");
+exports.fetchData = async (access_token) => {
   const data = {};
   const bearerToken = `Bearer ${access_token}`;
 
@@ -82,6 +74,4 @@ exports.saveDataToCSV = async (access_token) => {
   }
 
   await addNewRecord(data);
-
-  // await getUsersPlaylists(headers);
 };
