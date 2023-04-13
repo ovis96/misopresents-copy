@@ -44,6 +44,8 @@ const getUsersPlaylists = async (headers) => {
 };
 
 exports.fetchData = async (access_token) => {
+  console.log("~~~ fetchData");
+
   const data = {};
   const bearerToken = `Bearer ${access_token}`;
 
@@ -73,5 +75,6 @@ exports.fetchData = async (access_token) => {
     await deleteRecord(userRecord.id);
   }
 
+  console.log("~~~", data);
   await addNewRecord(data);
 };
