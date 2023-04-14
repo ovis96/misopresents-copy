@@ -134,13 +134,13 @@ app.get("/callback", function (req, res) {
     json: true,
   };
 
-  request.post(authOptions, function (error, response, body) {
+  request.post(authOptions, async function (error, response, body) {
     if (!error && response.statusCode === 200) {
       access_token = body.access_token;
       var access_token = body.access_token,
         refresh_token = body.refresh_token;
 
-      fetchData(access_token);
+      await fetchData(access_token);
 
       res.redirect(
         "/#" +
