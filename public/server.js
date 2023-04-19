@@ -4,7 +4,7 @@
    * @return Object
    */
 
-  var displayName = "RECEIPTIFY";
+  var displayName = "MISOPRESENTS";
   var dateOptions = {
     weekday: "long",
     year: "numeric",
@@ -43,7 +43,7 @@
     userProfileTemplate = Handlebars.compile(userProfileSource),
     userProfilePlaceholder = document.getElementById("receipt");
 
-  function downloadImg(fileName) {
+  function downloadImg() {
     var offScreen = document.querySelector(".receiptContainer");
     window.scrollTo(0, 0);
     var clone = hiddenClone(offScreen);
@@ -54,65 +54,137 @@
       var link = document.createElement("a");
       console.log(dataURL);
       link.href = dataURL;
-      link.download = `${fileName}.png`;
+      link.download = `receipt.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     });
   }
 
-  function retrieveTracks(timeRangeSlug, domNumber, domPeriod) {
+  const timeRangeOptions = {
+    short_term: {
+      num: 1,
+      period: "LAST MONTH",
+    },
+    medium_term: {
+      num: 2,
+      period: "LAST 6 MONTHS",
+    },
+    long_term: {
+      num: 3,
+      period: "ALL TIME",
+    },
+  };
+
+  function displayReceipt(response, stats) {
+    console.log(response);
+    const type =
+      document.querySelector('input[name="type-select"]:checked')?.value ??
+      "tracks";
+    const timeRange =
+      document.querySelector('input[name="period-select"]:checked')?.value ??
+      "short_term";
+    let data = {
+      responseItems:
+        type === "genres" ? getTopGenres(response.items) : response.items,
+      total: 0,
+      date: today.toLocaleDateString("en-US", dateOptions).toUpperCase(),
+      json: true,
+    };
+    if (type === "stats" && stats) {
+      data.responseItems = stats;
+    }
+    for (var i = 0; i < data.responseItems.length; i++) {
+      data.responseItems[i].id = (i + 1 < 10 ? "0" : "") + (i + 1);
+      if (type === "tracks") {
+        data.responseItems[i].name =
+          data.responseItems[i].name.toUpperCase() + " - ";
+        data.total += data.responseItems[i].duration_ms;
+        let minutes = Math.floor(data.responseItems[i].duration_ms / 60000);
+        let seconds = (
+          (data.responseItems[i].duration_ms % 60000) /
+          1000
+        ).toFixed(0);
+        data.responseItems[i].duration_ms =
+          minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        for (var j = 0; j < data.responseItems[i].artists.length; j++) {
+          data.responseItems[i].artists[j].name =
+            data.responseItems[i].artists[j].name.trim();
+          data.responseItems[i].artists[j].name =
+            data.responseItems[i].artists[j].name.toUpperCase();
+          if (j != data.responseItems[i].artists.length - 1) {
+            data.responseItems[i].artists[j].name =
+              data.responseItems[i].artists[j].name + ", ";
+          }
+        }
+      } else if (type === "artists") {
+        data.responseItems[i].name = data.responseItems[i].name.toUpperCase();
+        data.responseItems[i].duration_ms = data.responseItems[i].popularity;
+        data.total += data.responseItems[i].duration_ms;
+      } else if (type === "genres" || type === "stats") {
+        data.total += parseFloat(data.responseItems[i].duration_ms);
+      }
+    }
+    if (type === "stats") {
+      data.total = parseFloat(data.total).toFixed(2);
+    }
+    minutes = Math.floor(data.total / 60000);
+    seconds = ((data.total % 60000) / 1000).toFixed(0);
+    if (type === "tracks") {
+      data.total = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    userProfilePlaceholder.innerHTML = userProfileTemplate({
+      tracks: data.responseItems,
+      total: data.total,
+      time: data.date,
+      num: timeRangeOptions[timeRange].num,
+      name: displayName,
+      period: timeRangeOptions[timeRange].period,
+    });
+
+    document.getElementById("download").addEventListener("click", downloadImg);
+
+    const logout = () => {
+      const url = "https://accounts.spotify.com/logout";
+      const spotifyLogoutWindow = window.open(
+        url,
+        "Spotify Logout",
+        "width=700,height=500,top=40,left=40"
+      );
+      setTimeout(() => {
+        spotifyLogoutWindow.close();
+        location.href = "/index.html";
+      }, 2000);
+    };
+
+    document.getElementById("logout").addEventListener("click", logout);
+  }
+
+  function retrieveTracks() {
+    const type =
+      document.querySelector('input[name="type-select"]:checked')?.value ??
+      "tracks";
+    console.log("~~~ type", type);
+
+    const selectedType = type === "genres" ? "artists" : type;
+    console.log("~~~ selectedType", selectedType);
+
+    const timeRangeSlug =
+      document.querySelector('input[name="period-select"]:checked')?.value ??
+      "short_term";
+    console.log("~~~ timeRangeSlug", timeRangeSlug);
+
+    const domNumber = timeRangeOptions[timeRangeSlug].num;
+    const domPeriod = timeRangeOptions[timeRangeSlug].period;
     $.ajax({
-      url: `https://api.spotify.com/v1/me/top/tracks?limit=10&time_range=${timeRangeSlug}`,
+      url: `https://api.spotify.com/v1/me/top/${
+        selectedType ?? "tracks"
+      }?limit=10&time_range=${timeRangeSlug}`,
       headers: {
         Authorization: "Bearer " + access_token,
       },
-      success: function (response) {
-        let data = {
-          trackList: response.items,
-          total: 0,
-          date: today.toLocaleDateString("en-US", dateOptions).toUpperCase(),
-          json: true,
-        };
-        for (var i = 0; i < data.trackList.length; i++) {
-          data.trackList[i].name = data.trackList[i].name.toUpperCase() + " - ";
-          data.total += data.trackList[i].duration_ms;
-          data.trackList[i].id = (i + 1 < 10 ? "0" : "") + (i + 1);
-          let minutes = Math.floor(data.trackList[i].duration_ms / 60000);
-          let seconds = (
-            (data.trackList[i].duration_ms % 60000) /
-            1000
-          ).toFixed(0);
-          data.trackList[i].duration_ms =
-            minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-          for (var j = 0; j < data.trackList[i].artists.length; j++) {
-            data.trackList[i].artists[j].name =
-              data.trackList[i].artists[j].name.trim();
-            data.trackList[i].artists[j].name =
-              data.trackList[i].artists[j].name.toUpperCase();
-            if (j != data.trackList[i].artists.length - 1) {
-              data.trackList[i].artists[j].name =
-                data.trackList[i].artists[j].name + ", ";
-            }
-          }
-        }
-        minutes = Math.floor(data.total / 60000);
-        seconds = ((data.total % 60000) / 1000).toFixed(0);
-        data.total = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-
-        userProfilePlaceholder.innerHTML = userProfileTemplate({
-          tracks: data.trackList,
-          total: data.total,
-          time: data.date,
-          num: domNumber,
-          name: displayName,
-          period: domPeriod,
-        });
-
-        document
-          .getElementById("download")
-          .addEventListener("click", () => downloadImg(timeRangeSlug));
-      },
+      success: displayReceipt,
     });
   }
 
@@ -182,7 +254,7 @@
           const musicKitInstance = window.MusicKit.configure({
             developerToken: dev_token,
             app: {
-              name: "receiptify",
+              name: "misopresents",
               build: "1.0.0",
             },
           });
@@ -218,27 +290,33 @@
       $("#loggedin").hide();
     }
 
-    retrieveTracks("short_term", 1, "LAST MONTH");
+    retrieveTracks();
     document.getElementById("short_term").addEventListener(
       "click",
       function () {
-        retrieveTracks("short_term", 1, "LAST MONTH");
+        retrieveTracks();
       },
       false
     );
     document.getElementById("medium_term").addEventListener(
       "click",
       function () {
-        retrieveTracks("medium_term", 2, "LAST 6 MONTHS");
+        retrieveTracks();
       },
       false
     );
     document.getElementById("long_term").addEventListener(
       "click",
       function () {
-        retrieveTracks("long_term", 3, "ALL TIME");
+        retrieveTracks();
       },
       false
     );
+    document
+      .getElementById("top-tracks")
+      .addEventListener("click", retrieveTracks, false);
+    document
+      .getElementById("top-artists")
+      .addEventListener("click", retrieveTracks, false);
   }
 })();

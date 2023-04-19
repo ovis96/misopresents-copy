@@ -7,12 +7,12 @@ const lastfmKey = config.lastfmKey;
  * @return Object
  */
 
-var displayName = "RECEIPTIFY";
+var displayName = "MISOPRESENTS";
 var dateOptions = {
   weekday: "long",
   year: "numeric",
   month: "long",
-  day: "numeric"
+  day: "numeric",
 };
 var today = new Date();
 
@@ -45,7 +45,7 @@ function retrieveTracks(user, timeRangeSlug, domNumber, domPeriod) {
       period: timeRangeSlug,
       limit: 10,
       api_key: lastfmKey,
-      format: "json"
+      format: "json",
     },
     success: function (response) {
       if ($("#receipt").hasClass("hidden")) {
@@ -66,7 +66,8 @@ function retrieveTracks(user, timeRangeSlug, domNumber, domPeriod) {
         totalTime += playsInt * durationInt;
         let minutes = Math.floor(durationInt / 60);
         let seconds = (durationInt % 60).toFixed(0);
-        trackList[i].duration = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        trackList[i].duration =
+          minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
       }
       let days = Math.floor(totalTime / 86400);
       let hours = Math.floor((totalTime - days * 86400) / 3600);
@@ -89,26 +90,28 @@ function retrieveTracks(user, timeRangeSlug, domNumber, domPeriod) {
         time: date,
         num: domNumber,
         name: user.toUpperCase(),
-        period: domPeriod
+        period: domPeriod,
       });
-      document.getElementById("download").addEventListener("click", function () {
-        var offScreen = document.querySelector(".receiptContainer");
-        window.scrollTo(0, 0);
-        var clone = hiddenClone(offScreen);
-        // Use clone with htm2canvas and delete clone
-        html2canvas(clone, { scrollY: -window.scrollY }).then((canvas) => {
-          var dataURL = canvas.toDataURL("image/png", 1.0);
-          document.body.removeChild(clone);
-          var link = document.createElement("a");
-          console.log(dataURL);
-          link.href = dataURL;
-          link.download = `${timeRangeSlug}.png`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
+      document
+        .getElementById("download")
+        .addEventListener("click", function () {
+          var offScreen = document.querySelector(".receiptContainer");
+          window.scrollTo(0, 0);
+          var clone = hiddenClone(offScreen);
+          // Use clone with htm2canvas and delete clone
+          html2canvas(clone, { scrollY: -window.scrollY }).then((canvas) => {
+            var dataURL = canvas.toDataURL("image/png", 1.0);
+            document.body.removeChild(clone);
+            var link = document.createElement("a");
+            console.log(dataURL);
+            link.href = dataURL;
+            link.download = `${timeRangeSlug}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
         });
-      });
-    }
+    },
   });
 }
 
@@ -124,7 +127,7 @@ user.addEventListener("submit", async function (e) {
     data: {
       method: "user.getinfo",
       user: username,
-      api_key: lastfmKey
+      api_key: lastfmKey,
     },
     success: function (response) {
       if (!$("#error-message").hasClass("hidden")) {
@@ -177,6 +180,6 @@ user.addEventListener("submit", async function (e) {
         $("#options").addClass("hidden");
       }
       $("#error-message").removeClass("hidden");
-    }
+    },
   });
 });

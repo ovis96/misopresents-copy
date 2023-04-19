@@ -9,16 +9,6 @@ const headers = {
   Authorization: bearerToken,
 };
 
-// outputs: array of records.
-// {
-//   "id": "recFP4iE0LS6iSZgx",
-//   "createdTime": "2023-04-06T08:05:50.000Z",
-//   "fields": {
-//     "Name": "Suvash",
-//     "Age": "20",
-//     "Location": "Sunamganj"
-//   }
-// }
 const getAllRecords = async () => {
   const recordsData = await axios({
     method: "get",
@@ -47,10 +37,6 @@ const deleteRecord = async (recordId) => {
     headers,
   });
 };
-
-getAllRecords().then((records) => {
-  console.log("~~~ records", JSON.stringify(records, null, 2));
-});
 
 exports.addNewRecord = addNewRecord;
 exports.getAllRecords = getAllRecords;
