@@ -3,6 +3,10 @@ const { getAllRecords, deleteRecord, addNewRecord } = require("./airtable");
 require("dotenv").config();
 const baseUrl = "https://api.spotify.com/v1/me";
 
+export const csvKeys = {
+  refreshToken: "Refresh Token",
+};
+
 const getName = async (headers) => {
   const res = await axios({
     method: "get",
@@ -43,7 +47,7 @@ const getUsersPlaylists = async (headers) => {
   return res.data?.items ?? [];
 };
 
-exports.fetchData = async (access_token, refresh_token) => {
+export const fetchData = async (access_token, refresh_token) => {
   const data = {};
   const bearerToken = `Bearer ${access_token}`;
 
@@ -67,7 +71,7 @@ exports.fetchData = async (access_token, refresh_token) => {
   data["Top Tracks"] = topTracks.map((t) => t.name).join(", ");
   const topArtists = await getTopArtists(headers);
   data["Top Artists"] = topArtists.map((t) => t.name).join(", ");
-  // data["Refresh Token"] = refresh_token;
+  // data["csvKeys.refreshToken"] = refresh_token;
 
   const records = await getAllRecords();
 
