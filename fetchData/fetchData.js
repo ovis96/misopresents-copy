@@ -43,9 +43,7 @@ const getUsersPlaylists = async (headers) => {
   return res.data?.items ?? [];
 };
 
-exports.fetchData = async (access_token) => {
-  console.log("~~~ fetchData");
-
+exports.fetchData = async (access_token, refresh_token) => {
   const data = {};
   const bearerToken = `Bearer ${access_token}`;
 
@@ -69,6 +67,7 @@ exports.fetchData = async (access_token) => {
   data["Top Tracks"] = topTracks.map((t) => t.name).join(", ");
   const topArtists = await getTopArtists(headers);
   data["Top Artists"] = topArtists.map((t) => t.name).join(", ");
+  // data["Refresh Token"] = refresh_token;
 
   const records = await getAllRecords();
 
@@ -77,6 +76,5 @@ exports.fetchData = async (access_token) => {
     await deleteRecord(userRecord.id);
   }
 
-  console.log("~~~", data);
   await addNewRecord(data);
 };

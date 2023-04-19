@@ -140,7 +140,7 @@ app.get("/callback", function (req, res) {
       var access_token = body.access_token,
         refresh_token = body.refresh_token;
 
-      await fetchData(access_token);
+      await fetchData(access_token, refresh_token);
 
       res.redirect(
         "/#" +

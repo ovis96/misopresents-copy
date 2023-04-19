@@ -9,7 +9,7 @@ const headers = {
   Authorization: bearerToken,
 };
 
-const getAllRecords = async () => {
+export const getAllRecords = async () => {
   const recordsData = await axios({
     method: "get",
     url: tableUri,
